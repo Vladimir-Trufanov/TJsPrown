@@ -1,3 +1,35 @@
+
+// ****************************************************************************
+// *              Определить, включены ли у пользователя cookie               *
+// ****************************************************************************
+function IsCookieEnabled()
+{
+   // Проверяем существование свойства navigator.cookieEnabled
+   if(typeof(navigator.cookieEnabled)!="undefined")
+      return navigator.cookieEnabled;
+   else
+   {
+      // Если свойство navigator.cookieEnabled не поддерживается, то просто 
+      // попробуем установить и получить назад тестовый cookie
+		var tmpCookie = "testCookieForCheck";
+		SetCookie(tmpCookie, "1");
+		if (GetCookie(tmpCookie) != null)
+  		{
+         DeleteCookie(tmpCookie);
+  			return true;
+  		}
+      return false;
+  	}
+   // https://learn.javascript.ru/cookie
+   // Иногда посетители отключают cookie. Отловить это можно проверкой
+   // свойства navigator.cookieEnabled
+   // if (!navigator.cookieEnabled) 
+   // {
+   //    alert('Включите cookie для комфортной работы с этим сайтом');
+   // }
+}
+
+
 function MakeCatchyQuotes()
 {
    var Result=0;
