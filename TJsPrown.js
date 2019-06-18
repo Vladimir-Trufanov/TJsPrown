@@ -1,4 +1,44 @@
 
+// Значения name и value являются обязательными, а остальные не обязательны.
+// http://www.codenet.ru/webmast/js/Cookies.php 
+function setCookie(name,value,expires,path,domain,secure) 
+{
+   document.cookie = 
+      name + "=" + 
+      escape(value) +
+      ((expires) ? "; expires=" + expires : "") +
+      ((path) ? "; path=" + path : "") +
+      ((domain) ? "; domain=" + domain : "") +
+      ((secure) ? "; secure" : "");
+}
+// Для получения значения кукисов в JavaScript, можно воспользоваться 
+// document.cookie. Обычно, document.cookie имеет строку следующего формата:
+// foo=bar;this=that;somename=somevalue;.....
+// Эта строка содержит пары имя=значение, разделённые точкой с запятой.
+// Функция getCookie() позволяет осуществить разбор параметров этой строки
+function getCookie(name) 
+{
+	var cookie = " " + document.cookie;
+	var search = " " + name + "=";
+	var setStr = null;
+	var offset = 0;
+	var end = 0;
+	if (cookie.length > 0) 
+   {
+		offset = cookie.indexOf(search);
+		if (offset != -1) 
+      {
+			offset += search.length;
+			end = cookie.indexOf(";", offset)
+			if (end == -1) 
+         {
+				end = cookie.length;
+			}
+			setStr = unescape(cookie.substring(offset, end));
+		}
+	}
+	return(setStr);
+}
 // ****************************************************************************
 // *              Определить, включены ли у пользователя cookie               *
 // ****************************************************************************
@@ -28,8 +68,6 @@ function IsCookieEnabled()
    //    alert('Включите cookie для комфортной работы с этим сайтом');
    // }
 }
-
-
 function MakeCatchyQuotes()
 {
    var Result=0;
@@ -45,7 +83,6 @@ function MakeCatchyQuotes()
    }); // конец ready
    return Result;
 }
-
 function getTime(secs) {
 	var sep = ':'; //separator character
 	var hours,minutes,seconds,time,am_pm;
