@@ -1,53 +1,167 @@
+// JS/HTML5                                                 *** TJsPrown.js ***
+// ****************************************************************************
+// * TJsPrown                        Библиотека JavaScript-прикладных функций *
+// *                                                                          *
+// * v1.2, 13.01.2020                              Автор:       Труфанов В.Е. *
+// * Copyright © 2019 tve                          Дата создания:  02.04.2019 *
+// ****************************************************************************
 
+//    Библиотека JavaScript-прикладных функций содержит набор небольших программных
+// модулей, которые часто используются при программировании сайтов. 
+//    Основное назначение функций библиотеки разгрузить серверы и перенести 
+// работу по взаимодействию пользователей с содержимым сайтов на их компьютеры.
+//    Часть функций библиотеки помогают сайтам настроиться на браузеры 
+// пользователей и сделать более удобным их взаимодействие.
+//
+// Справочник библиотеки TJsPrown:
+//
+// Консоль браузера -
+// Контейнер LocalStorage -
+// Обработка события по завершению загрузки страницы - 
 
-      // ----------------------------------------------------------------------
-      //      Добавить обработку события по завершению загрузки страницы
-      // ----------------------------------------------------------------------
-      function addLoadEvent(func) 
+// Шаблон описания функций
+
+// Функция выполняет конкретную и часто возникающую задачу - выбрать из строки
+// подстроку по заданному регулярному выражению и узнать её начальную позицию 
+// в этой строке. 
+// Findes возвращает первое или единственное вхождение подстроки в исходной 
+// строке, а в случае неудачи возвращает пустую строку.
+// Через третий параметр функция по ссылке возвращает позицию найденного 
+// фрагмента, начиная с нулевого значения, или -1, если фрагмент не найден.
+ 
+// Синтаксис:                                     
+//
+//   $Result=Findes($preg,$string,&$point);
+
+// Параметры:
+//
+//   $preg   - текст регулярного выражения;
+//   $string - текст, который должен быть обработан регулярным выражением;
+//   $point  - позиция начала найденного фрагмента после работы 
+//      регулярного выражения (параметр по ссылке). $point=-1, если фрагмент 
+//   не найден;  
+
+// Возвращаемое значение: 
+// 
+//   $Result  - найденный фрагмент после работы регулярного выражения или
+//      пустая строка, если фрагмент не был найден
+
+// ****************************************************************************
+// *        Добавить обработку события по завершению загрузки страницы        *
+// ****************************************************************************
+function addLoadEvent(func) 
+{
+   var oldonload=window.onload;
+   if (typeof window.onload != 'function') 
+   {
+      window.onload = func;
+   } 
+   else
+   {
+      window.onload = function() 
       {
-         var oldonload = window.onload;
-         if (typeof window.onload != 'function') 
+         if (oldonload) 
          {
-            window.onload = func;
-         } 
-         else
-         {
-            window.onload = function() 
-            {
-               if (oldonload) 
-               {
-                  oldonload();
-               }
-               func();
-            }
+            oldonload();
          }
+         func();
       }
-
-// Перебираем все элементы, находящиеся в контейнере localStorage
+   }
+}
+// ****************************************************************************
+// *    Показать в консоли браузера все элементы, находящиеся в контейнере    *
+// *                      localStorage и их значения                          *
+// ****************************************************************************
 function ViewLocalStorage()
 {
-      var str="";
-      for (var i=0; i<localStorage.length; i++)
-      {
-         str="Ключ: "+localStorage.key(i)+"; Значение: "+localStorage.getItem(localStorage.key(i));
-         console.log(str);
-      }
-         console.log('--- localStorage ---');
+   var str="";
+   for (var i=0; i<localStorage.length; i++)
+   {
+      str=
+         "Ключ: "+localStorage.key(i)+"; "+
+         "Значение: "+localStorage.getItem(localStorage.key(i));
+      console.log(str);
+   }
+   console.log('--- localStorage ---');
 }
 
+// 3
+// https://learn.javascript.ru/cookie
+// Значения name и value являются обязательными, а остальные не обязательны.  !!!???
 
-// Значения name и value являются обязательными, а остальные не обязательны.
-// http://www.codenet.ru/webmast/js/Cookies.php 
-function setCookie(name,value,expires,path,domain,secure) 
+function setcookie(name,value,Duration) 
 {
-   document.cookie = 
-      name + "=" + 
-      escape(value) +
-      ((expires) ? "; expires=" + expires : "") +
-      ((path) ? "; path=" + path : "") +
-      ((domain) ? "; domain=" + domain : "") +
-      ((secure) ? "; secure" : "");
+   // Определяем параметры кукиса по умолчанию
+   options=
+   {
+      'path':'/',
+      'max-age':44236800, // 512д*24ч*60м*60с=44236800с - последняя дата
+      'expires':512,      // 512д - число дней использования (вместо max-age)
+      //'secure':true,
+      'samesite':'strict' // использовать кукисы только своего сайта
+   };
+   // Выщитываем, когда задан expires, последнюю дату кукиса 
+   if (Duration)
+   {
+      options['expires']=Duration;
+      options['max-age']=Duration*24*60*60;
+   }
+   var last_date=new Date();
+   last_date.setDate(last_date.getDate()+options['expires']);
+   //
+   let updatedCookie=encodeURIComponent(name)+"="+encodeURIComponent(value);
+   for (let optionKey in options) 
+   {
+      //console.log("optionKey="+optionKey);
+      updatedCookie+="; "+optionKey;
+      var optionValue=options[optionKey];
+      // Преобразовываем expires 
+      if (optionKey=='expires')
+      {
+         optionValue=last_date.toUTCString();
+      } 
+      // Преобразовываем все параметры, кроме secure
+      if (optionValue!==true) 
+      {
+         updatedCookie+="="+optionValue;
+      }
+      //console.log("optionValue="+optionValue);
+   }
+   
+   document.cookie=updatedCookie;
+   //console.log("document.cookie="+updatedCookie);
 }
+
+
+/*
+// https://ruseller.com/lessons.php?id=593 
+function set_cookie ( name, value, exp_y, exp_m, exp_d, path, domain, secure )
+{
+  var cookie_string = name + "=" + escape ( value );
+ 
+  if ( exp_y )
+  {
+    var expires = new Date ( exp_y, exp_m, exp_d );
+    cookie_string += "; expires=" + expires.toGMTString();
+  }
+ 
+  if ( path )
+        cookie_string += "; path=" + escape ( path );
+ 
+  if ( domain )
+        cookie_string += "; domain=" + escape ( domain );
+  
+  if ( secure )
+        cookie_string += "; secure";
+  
+  //document.cookie = cookie_string;
+  console.log("document.cookie="+cookie_string);
+
+}
+*/
+
+
+
 // Для получения значения кукисов в JavaScript, можно воспользоваться 
 // document.cookie. Обычно, document.cookie имеет строку следующего формата:
 // foo=bar;this=that;somename=somevalue;.....
@@ -76,6 +190,46 @@ function getCookie(name)
 	}
 	return(setStr);
 }
+
+
+//https://html5css.ru/js/js_cookies.php
+function get_Cookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+function trass_Cookie(cname) 
+{
+   var trass='';
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) 
+    {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') 
+        {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) 
+        {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+
 // ****************************************************************************
 // *                               Удалить кукис                              *
 // ****************************************************************************
@@ -84,6 +238,14 @@ function DeleteCookie(name)
    var date = new Date(0);
    document.cookie = name+"=; path=/; expires=" + date.toUTCString();
 }
+/*
+function delete_cookie ( cookie_name )
+{
+  var cookie_date = new Date ( );  // Текущая дата и время
+  cookie_date.setTime ( cookie_date.getTime() - 1 );
+  document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
+}
+*/
 // ****************************************************************************
 // *              Определить, включены ли у пользователя cookie               *
 // ****************************************************************************
