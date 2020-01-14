@@ -1,0 +1,57 @@
+[Config]
+Compilator.SaveAll=0
+Compilator.Capture=0
+Compilator.CompileOnBackground=0
+Compilator.ProgSaveAll=0
+Compilator.ProgRunSelection=0
+Compilator.LogType=0
+DefaultDir=C:\Webservers\TJsPrown
+DefaultCP=0
+LogtoEnd=1
+DontOpen=0
+AbsolutePath=0
+FileFormat=0
+ProjectFilesOnly=0
+HTServer=localhost
+Extensions=*.*
+[Project tree]
+TJsPrown
+	+TJsPrown
+		+www
+			www\iGetAbove.php
+			www\index.php
+			www\indexOld.php
+			www\tests.js
+		-Рабочие материалы
+			-TDD для JavaScript
+				-test.it-master
+					-example
+						Рабочие материалы\TDD для JavaScript\test.it-master\example\example.js
+						Рабочие материалы\TDD для JavaScript\test.it-master\example\index.html
+					-test.it
+						Рабочие материалы\TDD для JavaScript\test.it-master\test.it\package.json
+						Рабочие материалы\TDD для JavaScript\test.it-master\test.it\README.md
+						Рабочие материалы\TDD для JavaScript\test.it-master\test.it\test.it.min.js
+					Рабочие материалы\TDD для JavaScript\test.it-master\LICENSE
+					Рабочие материалы\TDD для JavaScript\test.it-master\README.md
+					Рабочие материалы\TDD для JavaScript\test.it-master\test.it.js
+					Рабочие материалы\TDD для JavaScript\test.it-master\test.it.min.js
+					Рабочие материалы\TDD для JavaScript\test.it-master\test.it-firebug.js
+				Рабочие материалы\TDD для JavaScript\~$nit - тестирование javascript кода.doc
+				Рабочие материалы\TDD для JavaScript\QUnit - тестирование javascript кода.doc
+				Рабочие материалы\TDD для JavaScript\TDD в JavaScript - разработка приложения.doc
+				Рабочие материалы\TDD для JavaScript\test_it - тестирование JavaScript.doc
+				Рабочие материалы\TDD для JavaScript\Собираем окружение для современного TDD на JavaScript.doc
+		LICENSE
+		README.md
+		TJsPrown.css
+		TJsPrown.js
+		TJsPrown.ppr
+[Open project files]
+0=www\index.php
+[Selected Project Files]
+Main=
+Selected=www\index.php
+[www\index.php]
+TopLine=135
+Caret=14,141
