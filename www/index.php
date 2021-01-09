@@ -24,8 +24,8 @@ $SiteHost = iGetAbove($SiteAbove);      // Каталог хостинга
 <head>
    <meta charset="utf-8">
    <title>Проба QUnit</title>
-      <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.9.2.css">
-      <script src="https://code.jquery.com/qunit/qunit-2.9.2.js" ></script> 
+      <link rel="stylesheet" href="qunit-2.9.2.css">
+      <script src="qunit-2.9.2.js" ></script> 
    <script>
    
    
@@ -115,13 +115,8 @@ $SiteHost = iGetAbove($SiteAbove);      // Каталог хостинга
    </script>
 </head>
  <body>
- 
- <!-- 
-  <h1 id="qunit-header">QUnit test env</h1>
-  <h2 id="qunit-banner">1</h2>
-  <h2 id="qunit-userAgent">2</h2>
-  <ol id="qunit-tests">3</ol>
--->  
+  Тукст до тестов
+  
   <script>
    QUnit.test('trima()', function (assert) 
    {
@@ -134,23 +129,26 @@ $SiteHost = iGetAbove($SiteAbove);      // Каталог хостинга
       assert.equals(trim('    x  '), 'x', 'Табы');
       assert.equals(trim('    x   y  '), 'x   y', 'Табы и пробелы внутри строки не трогаем');*/
    });
+   /*
    QUnit.test('trima()', function (assert) 
    {
       assert.equal(trim(''), '', 'Пустая строка');
       assert.ok(trim('   ') === '', 'Строка из пробельных символов');
       assert.same(trim(), '', 'Без параметра');
       assert.equal(trima(' x'), 'x', 'Начальные пробелы');
+      */
       /*assert.equals(trim('x '), 'x', 'Концевые пробелы');
       assert.equals(trim(' x '), 'x', 'Пробелы с обоих концов');
       assert.equals(trim('    x  '), 'x', 'Табы');
       assert.equals(trim('    x   y  '), 'x   y', 'Табы и пробелы внутри строки не трогаем');*/
-   });
+   //});
    
    // Let's test this function
 function isEven(val) {
     return val % 2 === 0;
 }
  
+
 QUnit.test('isEven()', function(assert) {
     assert.ok(isEven(0), 'Zero is an even number');
     assert.ok(isEven(2), 'So is two');
@@ -159,29 +157,43 @@ QUnit.test('isEven()', function(assert) {
     assert.ok(!isEven(-7), 'Neither does negative seven');
  
     // Fails
-    assert.ok(isEven(3), 'Three is an even number');
+    //assert.ok(isEven(3), 'Three is an even number');
 })
    
-   
-   
+ 
    
   </script>
-  <!-- 
-  <div id="qunit"></div>
-      <h1 id="qunit-header">QUnit Test Suite</h1>
-    <h2 id="qunit-banner"></h2>
-    <div id="qunit-testrunner-toolbar"></div>
-    <h2 id="qunit-userAgent"></h2>
-   -->
-    <div id="qunit-testrunner-toolbar"></div>
-      <h1 id="qunit-header">QUnit Test Suite</h1>
-    <h2 id="qunit-banner"></h2>
-    <ol id="qunit-tests"></ol>
 
-  
+<!-- 
+<h1 id="qunit-header">Заголовок страницы</h1>
+<h2 id="qunit-banner"></h2>
+<div id="qunit-testrunner-toolbar">Панель инструментов</div>
+<h2 id="qunit-userAgent">UserAgent</h2>
+<div id="qunit"></div>
+<ol id="qunit-tests"></ol>
+-->  
+<!-- 
+Делаем общий вывод прохождения тестов
+в следующей последовательности: 
+   а) заголовок страницы;
+   б) разделитель (если он не был вызван ранее, в остальных случаях 
+      без <div id="qunit"></div> тоже выводится один раз);    
+   в) панель инструментов (если она не была вызвана отдельно);    
+   г) UserAgent (если он не был вызван отдельно); 
+   д) По клику на числе проверок в тесте, разворачивается список проверок   
+<div id="qunit"></div>
+-->
+<div id="qunit"></div>
+ Привет! 
  </body>
 </html>
 
 
 <?php
+/*
+   <!-- 
+      <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.9.2.css">
+      <script src="https://code.jquery.com/qunit/qunit-2.9.2.js" ></script> 
+   -->
+*/
 // <!-- --> ************************************************* ProbaTest.php ***
