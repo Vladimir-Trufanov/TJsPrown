@@ -2,7 +2,7 @@
 // ****************************************************************************
 // * TJsPrown                        Библиотека JavaScript-прикладных функций *
 // *                                                                          *
-// * v1.2, 13.01.2020                              Автор:       Труфанов В.Е. *
+// * v1.2, 16.06.2021                              Автор:       Труфанов В.Е. *
 // * Copyright © 2019 tve                          Дата создания:  02.04.2019 *
 // ****************************************************************************
 
@@ -69,27 +69,237 @@ function addLoadEvent(func)
    }
 }
 // ****************************************************************************
-// *    Показать в консоли браузера все элементы, находящиеся в контейнере    *
-// *                      localStorage и их значения                          *
+// *                               Удалить кукис                              *
 // ****************************************************************************
-function ViewLocalStorage()
+function DeleteCookie(name)
 {
-   var str="";
-   for (var i=0; i<localStorage.length; i++)
-   {
-      str=
-         "Ключ: "+localStorage.key(i)+"; "+
-         "Значение: "+localStorage.getItem(localStorage.key(i));
-      console.log(str);
-   }
-   console.log('--- localStorage ---');
+   var date = new Date(0);
+   document.cookie = name+"=; path=/; expires=" + date.toUTCString();
 }
+/*
+function delete_cookie ( cookie_name )
+{
+  var cookie_date = new Date ( );  // Текущая дата и время
+  cookie_date.setTime ( cookie_date.getTime() - 1 );
+  document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
+}
+*/
+// ****************************************************************************
+// *                                                                          *
+// ****************************************************************************
+//https://html5css.ru/js/js_cookies.php
+function get_Cookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+// ****************************************************************************
+// *                                                                          *
+// ****************************************************************************
+// Для получения значения кукисов в JavaScript, можно воспользоваться 
+// document.cookie. Обычно, document.cookie имеет строку следующего формата:
+// foo=bar;this=that;somename=somevalue;.....
+// Эта строка содержит пары имя=значение, разделённые точкой с запятой.
+// Функция getCookie() позволяет осуществить разбор параметров этой строки
+function getCookie(name) 
+{
+	var cookie = " " + document.cookie;
+	var search = " " + name + "=";
+	var setStr = null;
+	var offset = 0;
+	var end = 0;
+	if (cookie.length > 0) 
+   {
+		offset = cookie.indexOf(search);
+		if (offset != -1) 
+      {
+			offset += search.length;
+			end = cookie.indexOf(";", offset)
+			if (end == -1) 
+         {
+				end = cookie.length;
+			}
+			setStr = unescape(cookie.substring(offset, end));
+		}
+	}
+	return(setStr);
+}
+// ****************************************************************************
+// *                                                                          *
+// ****************************************************************************
+function getScreenInfo(setconsole=true)
+{
+// http://qaru.site/questions/83058/getting-the-physical-screen-dimensions-dpi-pixel-density-in-chrome-on-android
+var aScreenInfo=[];    // массив данных об окне браузера
 
-// 3
-// https://learn.javascript.ru/cookie
-// Значения name и value являются обязательными, а остальные не обязательны.  !!!???
+// Определяем ширину и высоту экрана в пикселях
+// https://www.w3schools.com/js/js_window_screen.asp
+var we=window.screen.width;   aScreenInfo.push(we);                      // 0
+var he=window.screen.height;  aScreenInfo.push(he);                      // 1
+// Определяем доступные ширину и высоту экрана посетителя в пикселях
+// (ширина экрана посетителя минус интерфейс функции, такой как панель задач 
+// Windows и высота экрана минус интерфейс функции, такие как панель задач 
+var wea=window.screen.availWidth;   aScreenInfo.push(wea);               // 2
+var hea=window.screen.availHeight;  aScreenInfo.push(hea);               // 3
+// Определяем ширину и высоту окна браузера  (не включая панели инструментов ---и 
+// полосы прокрутки---) в пикселях https://www.w3schools.com/js/js_window.asp
+var wb = window.innerWidth||document.documentElement.clientWidth;
+aScreenInfo.push(wb);                                                    // 4
+var hb = window.innerHeight||document.documentElement.clientHeight;
+aScreenInfo.push(hb);                                                    // 5
+// Определяем ширину и высоту клиентской части сайта в окне браузера 
+var wcl=document.body.clientWidth;  aScreenInfo.push(wcl);               // 6
+var hcl=document.body.clientHeight; aScreenInfo.push(hcl);               // 7
+// Определяем номинальные толщины вертикальной и горизонтально полос прокрутки 
+var ScrollWidth = wb - wcl;  aScreenInfo.push(ScrollWidth);              // 8
+var ScrollHeight = hb - hcl; aScreenInfo.push(ScrollHeight);             // 9
+// Определяем соотношение пикселей устройства
+var DevicePixelRatio=window.devicePixelRatio||1;                         // 10
+aScreenInfo.push(DevicePixelRatio);
+// Формируем текстовую строку для консоли
+var str = 
+[
+   'Screen width:  '+we+'px',
+   'Screen height: '+he+'px',
+   'Screen available width: '+wea+'px',
+   'Screen available height: '+hea+'px',
+   'Browser width: '+wb+'px',
+   'Browser height: '+hb+'px',
+   'Client width: '+wcl+'px',   
+   'Client height: '+hcl+'px',
+   'ScrollWidth: '+ScrollWidth+'px',
+   'ScrollHeight: '+ScrollHeight+'px',
+   'Device Pixel Ratio: '+DevicePixelRatio
+].join('\n');
 
+if (setconsole) console.log(str);
+return aScreenInfo;
+}
+// ****************************************************************************
+// *                                                                          *
+// ****************************************************************************
+function getTime(secs) {
+	var sep = ':'; //separator character
+	var hours,minutes,seconds,time,am_pm;
+	var now = new Date();
+	hours = now.getHours();
+	if (hours < 12) {
+		am_pm = 'am';
+	} else {
+		am_pm = 'pm';
+	}
+	hours = hours % 12;
+	if (hours === 0) {
+		hours = 12;
+	} 
+	time = hours;
+	minutes = now.getMinutes();
+	if (minutes < 10) {
+		minutes = '0' + minutes;
+	}
+	time += sep + minutes;
+	if (secs) {
+		seconds = now.getSeconds();
+		if (seconds < 10) {
+			seconds = '0' + seconds;
+		}
+		time += sep + seconds;
+	} 
+	return time + ' ' + am_pm;
+}
+// ****************************************************************************
+// *              Определить, включены ли у пользователя cookie               *
+// ****************************************************************************
+function IsCookieEnabled()
+{
+   // Проверяем существование свойства navigator.cookieEnabled
+   if(typeof(navigator.cookieEnabled)!="undefined")
+      return navigator.cookieEnabled;
+   else
+   {
+      // Если свойство navigator.cookieEnabled не поддерживается, то просто 
+      // попробуем установить и получить назад тестовый cookie
+		var tmpCookie = "testCookieForCheck";
+		SetCookie(tmpCookie, "1");
+		if (GetCookie(tmpCookie) != null)
+  		{
+         DeleteCookie(tmpCookie);
+  			return true;
+  		}
+      return false;
+  	}
+   // https://learn.javascript.ru/cookie
+   // Иногда посетители отключают cookie. Отловить это можно проверкой
+   // свойства navigator.cookieEnabled
+   // if (!navigator.cookieEnabled) 
+   // {
+   //    alert('Включите cookie для комфортной работы с этим сайтом');
+   // }
+}
+// ****************************************************************************
+// *                                                                          *
+// ****************************************************************************
+function MakeCatchyQuotes()
+{
+   var Result=0;
+   $(document).ready(function() 
+   {
+      $('span.pq').each(function() 
+      {
+         var quote=$(this).clone();
+         quote.removeClass('pq');
+         quote.addClass('pullquote');
+         $(this).before(quote);
+      }); // конец each
+   }); // конец ready
+   return Result;
+}
+// ****************************************************************************
+// *          Установить ширину и спозиционировать div "игровой стол"         *
+// *              в окне браузера на заданном текущем устройсте               *
+// ****************************************************************************
+function MakeScreenInfo(aScreenInfo)
+{
+   //elem.style.color = 'red';
+   var elem = document.getElementById("ScreenWidth");
+   elem.innerHTML = aScreenInfo[0];
+   elem = document.getElementById("ScreenHeight");
+   elem.innerHTML = aScreenInfo[1];
+   elem = document.getElementById("availWidth");
+   elem.innerHTML = aScreenInfo[2];
+   elem = document.getElementById("availHeight");
+   elem.innerHTML = aScreenInfo[3];
+   elem = document.getElementById("BrowserWidth");
+   elem.innerHTML = aScreenInfo[4];
+   elem = document.getElementById("BrowserHeight");
+   elem.innerHTML = aScreenInfo[5];
+   elem = document.getElementById("ClientWidth");
+   elem.innerHTML = aScreenInfo[6];
+   elem = document.getElementById("ClientHeight");
+   elem.innerHTML = aScreenInfo[7];
+   elem = document.getElementById("ScrollWidth");
+   elem.innerHTML = aScreenInfo[8];
+   elem = document.getElementById("ScrollHeight");
+   elem.innerHTML = aScreenInfo[9];
+   elem = document.getElementById("DevicePixelRatio");
+   elem.innerHTML = aScreenInfo[10];
+}
+// ****************************************************************************
+// *                                                                          *
+// ****************************************************************************
 function setcookie(name,value,Duration) 
+// https://ruseller.com/lessons.php?id=593 
+// https://learn.javascript.ru/cookie
 {
    // Определяем параметры кукиса по умолчанию
    options=
@@ -131,83 +341,9 @@ function setcookie(name,value,Duration)
    document.cookie=updatedCookie;
    //console.log("document.cookie="+updatedCookie);
 }
-
-
-/*
-// https://ruseller.com/lessons.php?id=593 
-function set_cookie ( name, value, exp_y, exp_m, exp_d, path, domain, secure )
-{
-  var cookie_string = name + "=" + escape ( value );
- 
-  if ( exp_y )
-  {
-    var expires = new Date ( exp_y, exp_m, exp_d );
-    cookie_string += "; expires=" + expires.toGMTString();
-  }
- 
-  if ( path )
-        cookie_string += "; path=" + escape ( path );
- 
-  if ( domain )
-        cookie_string += "; domain=" + escape ( domain );
-  
-  if ( secure )
-        cookie_string += "; secure";
-  
-  //document.cookie = cookie_string;
-  console.log("document.cookie="+cookie_string);
-
-}
-*/
-
-
-
-// Для получения значения кукисов в JavaScript, можно воспользоваться 
-// document.cookie. Обычно, document.cookie имеет строку следующего формата:
-// foo=bar;this=that;somename=somevalue;.....
-// Эта строка содержит пары имя=значение, разделённые точкой с запятой.
-// Функция getCookie() позволяет осуществить разбор параметров этой строки
-function getCookie(name) 
-{
-	var cookie = " " + document.cookie;
-	var search = " " + name + "=";
-	var setStr = null;
-	var offset = 0;
-	var end = 0;
-	if (cookie.length > 0) 
-   {
-		offset = cookie.indexOf(search);
-		if (offset != -1) 
-      {
-			offset += search.length;
-			end = cookie.indexOf(";", offset)
-			if (end == -1) 
-         {
-				end = cookie.length;
-			}
-			setStr = unescape(cookie.substring(offset, end));
-		}
-	}
-	return(setStr);
-}
-
-
-//https://html5css.ru/js/js_cookies.php
-function get_Cookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
+// ****************************************************************************
+// *                                                                          *
+// ****************************************************************************
 function trass_Cookie(cname) 
 {
    var trass='';
@@ -228,99 +364,10 @@ function trass_Cookie(cname)
     }
     return "";
 }
-
-
 // ****************************************************************************
-// *                               Удалить кукис                              *
+// *                                                                          *
 // ****************************************************************************
-function DeleteCookie(name)
-{
-   var date = new Date(0);
-   document.cookie = name+"=; path=/; expires=" + date.toUTCString();
-}
-/*
-function delete_cookie ( cookie_name )
-{
-  var cookie_date = new Date ( );  // Текущая дата и время
-  cookie_date.setTime ( cookie_date.getTime() - 1 );
-  document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
-}
-*/
-// ****************************************************************************
-// *              Определить, включены ли у пользователя cookie               *
-// ****************************************************************************
-function IsCookieEnabled()
-{
-   // Проверяем существование свойства navigator.cookieEnabled
-   if(typeof(navigator.cookieEnabled)!="undefined")
-      return navigator.cookieEnabled;
-   else
-   {
-      // Если свойство navigator.cookieEnabled не поддерживается, то просто 
-      // попробуем установить и получить назад тестовый cookie
-		var tmpCookie = "testCookieForCheck";
-		SetCookie(tmpCookie, "1");
-		if (GetCookie(tmpCookie) != null)
-  		{
-         DeleteCookie(tmpCookie);
-  			return true;
-  		}
-      return false;
-  	}
-   // https://learn.javascript.ru/cookie
-   // Иногда посетители отключают cookie. Отловить это можно проверкой
-   // свойства navigator.cookieEnabled
-   // if (!navigator.cookieEnabled) 
-   // {
-   //    alert('Включите cookie для комфортной работы с этим сайтом');
-   // }
-}
-function MakeCatchyQuotes()
-{
-   var Result=0;
-   $(document).ready(function() 
-   {
-      $('span.pq').each(function() 
-      {
-         var quote=$(this).clone();
-         quote.removeClass('pq');
-         quote.addClass('pullquote');
-         $(this).before(quote);
-      }); // конец each
-   }); // конец ready
-   return Result;
-}
-function getTime(secs) {
-	var sep = ':'; //separator character
-	var hours,minutes,seconds,time,am_pm;
-	var now = new Date();
-	hours = now.getHours();
-	if (hours < 12) {
-		am_pm = 'am';
-	} else {
-		am_pm = 'pm';
-	}
-	hours = hours % 12;
-	if (hours === 0) {
-		hours = 12;
-	} 
-	time = hours;
-	minutes = now.getMinutes();
-	if (minutes < 10) {
-		minutes = '0' + minutes;
-	}
-	time += sep + minutes;
-	if (secs) {
-		seconds = now.getSeconds();
-		if (seconds < 10) {
-			seconds = '0' + seconds;
-		}
-		time += sep + seconds;
-	} 
-	return time + ' ' + am_pm;
-}
-        
-  function TurnOnHotkeys(){
+function TurnOnHotkeys(){
   
       document.onkeydown = function(e) {
 
@@ -365,5 +412,21 @@ function getTime(secs) {
       }
       
     }
-  }
-
+}
+// ****************************************************************************
+// *    Показать в консоли браузера все элементы, находящиеся в контейнере    *
+// *                      localStorage и их значения                          *
+// ****************************************************************************
+function ViewLocalStorage()
+{
+   var str="";
+   for (var i=0; i<localStorage.length; i++)
+   {
+      str=
+         "Ключ: "+localStorage.key(i)+"; "+
+         "Значение: "+localStorage.getItem(localStorage.key(i));
+      console.log(str);
+   }
+   console.log('--- localStorage ---');
+}
+// ************************************************************ TJsPrown.js ***

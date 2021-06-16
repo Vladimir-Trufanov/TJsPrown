@@ -5,6 +5,7 @@ Compilator.CompileOnBackground=0
 Compilator.ProgSaveAll=0
 Compilator.ProgRunSelection=0
 Compilator.LogType=0
+Compilator.LogEncoding=0
 DefaultDir=C:\Webservers\TJsPrown
 DefaultCP=0
 LogtoEnd=1
@@ -49,9 +50,13 @@ TJsPrown
 		TJsPrown.ppr
 [Open project files]
 0=www\index.php
+1=TJsPrown.js
 [Selected Project Files]
 Main=
-Selected=www\index.php
+Selected=TJsPrown.js
 [www\index.php]
 TopLine=135
 Caret=14,141
+[TJsPrown.js]
+TopLine=1
+Caret=61,432
