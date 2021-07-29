@@ -1,5 +1,5 @@
 <?php
-// PHP7/HTML5, EDGE/CHROME                                *** ProbaTest.php ***
+// PHP7/HTML5, EDGE/CHROME   githubtest 29.07.2021                             *** ProbaTest.php ***
 
 // ****************************************************************************
 // * DoorTry                                   Заготовка для пробной страницы *
